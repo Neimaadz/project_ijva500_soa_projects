@@ -19,6 +19,7 @@ public class ProjectService {
 
 	public Project create(ProjectCreateRequest projectRequest) {
 		Project project = new Project();
+		//if (projectRequest.name == null || projectRequest.name.length() == 0) return null;
 		project.setName(projectRequest.name);
 		project.setParentId(projectRequest.parent_id);
 		return projectRepository.save(project);

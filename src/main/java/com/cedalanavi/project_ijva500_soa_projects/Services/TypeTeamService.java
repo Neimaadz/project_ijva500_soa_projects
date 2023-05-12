@@ -3,6 +3,7 @@ package com.cedalanavi.project_ijva500_soa_projects.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cedalanavi.project_ijva500_soa_projects.Data.TypeTeamCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.TypeTeam;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.TypeTeamRepository;
 
@@ -16,11 +17,12 @@ public class TypeTeamService {
 		return typeTeamRepository.findAll();
 	}
 	
-	public TypeTeam create(String name, String description) 
+	public TypeTeam create(TypeTeamCreateRequest typeTeamRequest) 
 	{
 		TypeTeam typeTeam = new TypeTeam();
-		typeTeam.setName(name);
-		typeTeam.setDescription(description);
+		if (typeTeamRequest.name == null || typeTeamRequest.name.length() == 0) return null;
+		typeTeam.setName(typeTeamRequest.name);
+		typeTeam.setDescription(typeTeamRequest.description);
 		return typeTeamRepository.save(typeTeam);
 	}
 

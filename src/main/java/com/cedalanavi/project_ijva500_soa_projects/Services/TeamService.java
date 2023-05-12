@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cedalanavi.project_ijva500_soa_projects.Data.TeamCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.TeamRepository;
@@ -16,24 +17,21 @@ public class TeamService {
 	private TeamRepository teamRepository;
 	@Autowired
 	private TypeTeamService typeTeamService;
-	@Autowired
-	private ProjectService projectService;
 	
 	public List<Team> getAll() {
 		return teamRepository.findAll();
 	}
 
-	public Team create(String name, int type_team_id, int project_id, List<Integer> users_id){
-		// Vérification si project_id, team_type_id sont existant
-		if(!projectService.existsById(project_id) || !typeTeamService.existsById(type_team_id)) {
-			return null;
-		}
+	public Team create(TeamCreateRequest teamRequest){
 		// Création et enregistrement de l'équipe
 		Team team = new Team();
-		team.setName(name);
-		team.setTeamTypeId(type_team_id);
-		team.setProjectId(project_id);
-		team.setUsersIds(users_id);
+		if (teamRequest.name == null || teamRequest.name.length() == 0) return null;
+		if (teamRequest.teamTypeId == 0 || !typeTeamService.existsById(teamRequest.teamTypeId))	return null;
+		System.out.println(teamRequest.teamTypeId);
+		team.setName(teamRequest.name);
+		team.setTeamTypeId(teamRequest.teamTypeId);
+		team.setProjectId(teamRequest.projectId);
+		team.setUsersIds(teamRequest.usersIds);
 		return teamRepository.save(team);
 	}
 
@@ -50,8 +48,18 @@ public class TeamService {
 
 	public Team setUsers(int team_id, TeamUpdateRequest teamUpdateUsersRequest) {
 		Team updatedTeam = teamRepository.findById(team_id).get();
-		updatedTeam.setUsersIds(teamUpdateUsersRequest.getUsersIds());
+		updatedTeam.setUsersIds(teamUpdateUsersRequest.usersIds);
 		teamRepository.save(updatedTeam);
 		return null;
+	}
+
+	public Team update(int team_id, TeamUpdateRequest teamUpdateRequest) {
+		Team updatedTeam = new Team();
+		updatedTeam.setId(teamUpdateRequest.id);
+		updatedTeam.setName(teamUpdateRequest.name);
+		updatedTeam.setTeamTypeId(teamUpdateRequest.teamTypeId);
+		updatedTeam.setProjectId(teamUpdateRequest.projectId);
+		updatedTeam.setUsersIds(teamUpdateRequest.usersIds);
+		return teamRepository.save(updatedTeam);
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cedalanavi.project_ijva500_soa_projects.Data.TeamCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Services.TeamService;
@@ -41,8 +42,8 @@ public class TeamController {
 	}
 
 	@PostMapping(path = "/create")
-	public void create(@RequestParam String name, @RequestParam int type_team_id, @RequestParam int project_id, @RequestParam(required = false) List<Integer> users_id, HttpServletResponse response){
-		if (teamService.create(name, type_team_id, project_id, users_id) != null) {
+	public void create(@RequestBody TeamCreateRequest teamRequest, HttpServletResponse response){
+		if (teamService.create(teamRequest) != null) {
 			response.setStatus(HttpServletResponse.SC_OK);
 		}
 		else {
@@ -55,4 +56,13 @@ public class TeamController {
 		return teamService.setUsers(team_id, teamUpdateUsersRequest);
 	}
 	 
+	@PutMapping("{team_id}/update")
+	public void update(@PathVariable int team_id, @RequestBody TeamUpdateRequest teamUpdateUsersRequest, HttpServletResponse response) {
+		if (teamService.update(team_id, teamUpdateUsersRequest) != null) {
+			response.setStatus(HttpServletResponse.SC_OK);
+		}
+		else {
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+		}
+	}
 }

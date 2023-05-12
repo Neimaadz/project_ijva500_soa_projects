@@ -5,10 +5,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cedalanavi.project_ijva500_soa_projects.Data.TypeTeamCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.TypeTeam;
 import com.cedalanavi.project_ijva500_soa_projects.Services.TypeTeamService;
 
@@ -30,8 +32,8 @@ public class TypeTeamController {
 	}
 
 	@PostMapping(path = "/create")
-	public void create(@RequestParam String name, @RequestParam(required = false) String description, HttpServletResponse response) {
-		if (typeTeamService.create(name, description) != null) {
+	public void create(@RequestBody TypeTeamCreateRequest typeTeamRequest, HttpServletResponse response) {
+		if (typeTeamService.create(typeTeamRequest) != null) {
 			response.setStatus(HttpServletResponse.SC_OK);
 		}
 		else {

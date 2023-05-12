@@ -35,7 +35,7 @@ public class ProjectController {
 		}
 		else {
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-		}
+		}   
 	}
 	
 	@PutMapping("{id}/update")
