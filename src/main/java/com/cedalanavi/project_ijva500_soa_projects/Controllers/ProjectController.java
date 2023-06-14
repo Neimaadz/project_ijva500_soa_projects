@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectUpdateRequest;
+import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Project;
+import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Services.ProjectService;
 
 @RestController
@@ -41,5 +43,15 @@ public class ProjectController {
 	@PutMapping("{id}/update")
 	public Project update(@RequestBody ProjectUpdateRequest projectRequest, @PathVariable int id) {
 		return projectService.update(projectRequest, id);
+	}
+	
+	@PutMapping(path = "{id}/teams")
+	public Project setTeams(@PathVariable int id, @RequestBody ProjectUpdateRequest projectRequest) {
+		return projectService.setTeams(id, projectRequest);
+	}
+
+	@PutMapping(path = "{id}/projects")
+	public Project setProjects(@PathVariable int id, @RequestBody ProjectUpdateRequest projectRequest) {
+		return projectService.setProjects(id, projectRequest);
 	}
 }

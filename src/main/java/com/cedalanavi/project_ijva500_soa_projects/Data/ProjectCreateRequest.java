@@ -1,5 +1,6 @@
 package com.cedalanavi.project_ijva500_soa_projects.Data;
 
+import com.cedalanavi.project_ijva500_soa_projects.Entities.Project;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ProjectCreateRequest {
@@ -8,6 +9,6 @@ public class ProjectCreateRequest {
 	public String name;
 	
 	@JsonIgnore(value = false)
-	public String parent_id;
+	public Project parent_project;
 	
 }

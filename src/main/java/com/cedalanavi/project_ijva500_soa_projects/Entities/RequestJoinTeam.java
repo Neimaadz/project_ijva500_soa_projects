@@ -17,10 +17,10 @@ public class RequestJoinTeam {
 	private int id;
 	
 	@NonNull
-	private int teamId;
+    public int teamId;
 
 	@NonNull
-	private int userId;
+    public int userId;
 	
 	@NonNull
 	private String status;

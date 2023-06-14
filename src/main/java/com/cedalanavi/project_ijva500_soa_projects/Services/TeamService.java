@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
+import com.cedalanavi.project_ijva500_soa_projects.Repositories.ProjectRepository;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.TeamRepository;
 
 @Service
 public class TeamService {
-
+	@Autowired
+	private ProjectRepository projectRepository;
 	@Autowired
 	private TeamRepository teamRepository;
 	@Autowired
@@ -30,8 +32,12 @@ public class TeamService {
 		System.out.println(teamRequest.teamTypeId);
 		team.setName(teamRequest.name);
 		team.setTeamTypeId(teamRequest.teamTypeId);
-		team.setProjectId(teamRequest.projectId);
 		team.setUsersIds(teamRequest.usersIds);
+		try {			
+			team.setProject(projectRepository.findById(teamRequest.projectId).get());
+		}catch(Exception e) {
+			return null;
+		}
 		return teamRepository.save(team);
 	}
 
@@ -58,8 +64,12 @@ public class TeamService {
 		updatedTeam.setId(teamUpdateRequest.id);
 		updatedTeam.setName(teamUpdateRequest.name);
 		updatedTeam.setTeamTypeId(teamUpdateRequest.teamTypeId);
-		updatedTeam.setProjectId(teamUpdateRequest.projectId);
 		updatedTeam.setUsersIds(teamUpdateRequest.usersIds);
+		try {			
+			updatedTeam.setProject(projectRepository.findById(teamUpdateRequest.projectId).get());
+		}catch(Exception e) {
+			return null;
+		}
 		return teamRepository.save(updatedTeam);
 	}
 }

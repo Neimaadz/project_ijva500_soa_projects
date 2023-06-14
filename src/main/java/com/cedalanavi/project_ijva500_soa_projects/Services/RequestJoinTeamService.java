@@ -31,16 +31,16 @@ public class RequestJoinTeamService {
 	public RequestJoinTeam update(int id, RequestJoinTeamUpdateRequest requestJoinTeamUpdateRequest ) {
 		RequestJoinTeam requestJoinTeam = new RequestJoinTeam();
 		
-		if (requestJoinTeamUpdateRequest.id == 0 || requestJoinTeamUpdateRequest.teamId == 0 || requestJoinTeamUpdateRequest.userId == 0) return null;
-		requestJoinTeam.setId(requestJoinTeamUpdateRequest.id);
+		if (id == 0 || requestJoinTeamUpdateRequest.teamId == 0 || requestJoinTeamUpdateRequest.userId == 0) return null;
+		requestJoinTeam.setId(id);
 		requestJoinTeam.setTeamId(requestJoinTeamUpdateRequest.teamId);
 		requestJoinTeam.setUserId(requestJoinTeamUpdateRequest.userId);
-		
-		if (requestJoinTeamUpdateRequest.status == "accepted") {
+
+		if (requestJoinTeamUpdateRequest.status.equals("accepted"))  {
 			requestJoinTeam.setStatus("accepted");
 			return requestJoinTeamRepository.save(requestJoinTeam);
 		}
-		else if (requestJoinTeamUpdateRequest.status == "rejected") {
+		else if (requestJoinTeamUpdateRequest.status.equals("rejected")) {
 			requestJoinTeam.setStatus("rejected");
 			return requestJoinTeamRepository.save(requestJoinTeam);
 		}

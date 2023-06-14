@@ -7,9 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.lang.NonNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "team")
@@ -25,8 +29,11 @@ public class Team {
 	@NonNull
 	private int teamTypeId;
 	
+	@ManyToOne
+	@JoinColumn(name="idProject")
 	@NonNull
-	private int projectId;
+	@JsonBackReference
+	private Project project;
 	
 	@ElementCollection
 	private List<Integer> usersIds;
@@ -55,14 +62,6 @@ public class Team {
 		this.teamTypeId = teamTypeId;
 	}
 
-	public int getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
-
 	public List<Integer> getUsersIds() {
 		return usersIds;
 	}
@@ -75,4 +74,13 @@ public class Team {
 		this.usersIds.add(userId);
 	}
 
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	
 }
