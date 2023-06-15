@@ -1,5 +1,6 @@
 package com.cedalanavi.project_ijva500_soa_projects.Services;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,9 @@ public class ProjectService {
 
 	public Project create(ProjectCreateRequest projectRequest) {
 		Project project = new Project();
-		//if (projectRequest.name == null || projectRequest.name.length() == 0) return null;
+		if (projectRequest.name == null || projectRequest.name.length() == 0) return null;
 		project.setName(projectRequest.name);
-		project.setParentProject(projectRequest.parent_project);
 		return projectRepository.save(project);
-	}
-
-	public boolean existsById(int project_id) {
-		return projectRepository.existsById(project_id);
 	}
 
 	public Project update(ProjectUpdateRequest projectRequest, int id) {
@@ -41,6 +37,30 @@ public class ProjectService {
 		updatedProject.setName(projectRequest.name);
 		projectRepository.save(updatedProject);
 		return updatedProject;
+	}
+	
+	public void delete(int id) {
+		Project projectToDelete = projectRepository.findById(id).get();
+		
+		//Supression des équipes liés au projet
+		Iterator<Team> i = projectToDelete.getTeams().iterator(); 
+		while (i.hasNext()){ 
+			Team currentTeam = i.next(); // must be called before you can call
+			i.remove(); 
+			currentTeam.setProject(null);
+			currentTeam.setUsersIds(null); 
+			teamRepository.delete(currentTeam); 
+		}
+		
+		//Supression des projets liés au projet
+		Iterator<Project> i1 = projectToDelete.getProjects().iterator(); 
+		while (i1.hasNext()){ 
+			Project currentProject = i1.next(); // must be called before you can call
+			i1.remove(); 
+			currentProject.setParentProject(null);
+		}
+		 
+		projectRepository.delete(projectToDelete);
 	}
 
 	public Project setTeams(int id, ProjectUpdateRequest projectRequest) {
@@ -65,5 +85,9 @@ public class ProjectService {
 		
 		projectRepository.save(updatedProject);
 		return null;
+	}
+	
+	public boolean existsById(int project_id) {
+		return projectRepository.existsById(project_id);
 	}
 }

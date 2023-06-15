@@ -13,9 +13,6 @@ public class TeamCreateRequest {
 	@JsonIgnore(value = false)
 	public int teamTypeId;
 	
-	@JsonIgnore(value = false)
-	public int projectId;
-	
 	@ElementCollection
 	public List<Integer> usersIds;
 }

@@ -29,15 +29,9 @@ public class TeamService {
 		Team team = new Team();
 		if (teamRequest.name == null || teamRequest.name.length() == 0) return null;
 		if (teamRequest.teamTypeId == 0 || !typeTeamService.existsById(teamRequest.teamTypeId))	return null;
-		System.out.println(teamRequest.teamTypeId);
 		team.setName(teamRequest.name);
 		team.setTeamTypeId(teamRequest.teamTypeId);
 		team.setUsersIds(teamRequest.usersIds);
-		try {			
-			team.setProject(projectRepository.findById(teamRequest.projectId).get());
-		}catch(Exception e) {
-			return null;
-		}
 		return teamRepository.save(team);
 	}
 

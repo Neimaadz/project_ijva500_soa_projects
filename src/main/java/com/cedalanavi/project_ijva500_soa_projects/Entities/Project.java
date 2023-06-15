@@ -30,7 +30,6 @@ public class Project {
 	
 	@ManyToOne
 	@JoinColumn(name="idParentProject")
-	@NonNull
 	@JsonBackReference
 	private Project parentProject;
 	

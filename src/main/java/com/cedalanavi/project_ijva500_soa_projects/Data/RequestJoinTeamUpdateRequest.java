@@ -6,10 +6,4 @@ public class RequestJoinTeamUpdateRequest{
 	
 	@JsonIgnore(value = false)
 	public String status;
-	
-	@JsonIgnore(value = false)
-	public int teamId;
-
-	@JsonIgnore(value = false)
-	public int userId;
 }

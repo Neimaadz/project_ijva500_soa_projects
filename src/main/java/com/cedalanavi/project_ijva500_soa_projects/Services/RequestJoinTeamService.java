@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cedalanavi.project_ijva500_soa_projects.Data.RequestJoinTeamCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.RequestJoinTeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.RequestJoinTeam;
+import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.RequestJoinTeamRepository;
 
 @Service
@@ -29,12 +30,7 @@ public class RequestJoinTeamService {
 	}
 	
 	public RequestJoinTeam update(int id, RequestJoinTeamUpdateRequest requestJoinTeamUpdateRequest ) {
-		RequestJoinTeam requestJoinTeam = new RequestJoinTeam();
-		
-		if (id == 0 || requestJoinTeamUpdateRequest.teamId == 0 || requestJoinTeamUpdateRequest.userId == 0) return null;
-		requestJoinTeam.setId(id);
-		requestJoinTeam.setTeamId(requestJoinTeamUpdateRequest.teamId);
-		requestJoinTeam.setUserId(requestJoinTeamUpdateRequest.userId);
+		RequestJoinTeam requestJoinTeam = requestJoinTeamRepository.findById(id).get();
 
 		if (requestJoinTeamUpdateRequest.status.equals("accepted"))  {
 			requestJoinTeam.setStatus("accepted");

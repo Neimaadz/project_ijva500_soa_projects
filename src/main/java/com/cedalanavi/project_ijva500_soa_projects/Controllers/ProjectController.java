@@ -3,6 +3,7 @@ package com.cedalanavi.project_ijva500_soa_projects.Controllers;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectUpdateRequest;
-import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Project;
-import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Services.ProjectService;
 
 @RestController
@@ -43,6 +42,11 @@ public class ProjectController {
 	@PutMapping("{id}/update")
 	public Project update(@RequestBody ProjectUpdateRequest projectRequest, @PathVariable int id) {
 		return projectService.update(projectRequest, id);
+	}
+	
+	@DeleteMapping("{id}/delete")
+	public void delete(@PathVariable int id) {
+		projectService.delete(id);
 	}
 	
 	@PutMapping(path = "{id}/teams")
