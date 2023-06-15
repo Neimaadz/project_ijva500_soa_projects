@@ -39,7 +39,7 @@ public class TeamService {
 		return teamRepository.findAllByProjectId(project_id);
 	}
 
-	public Team addUser(int team_id, int user_id) {
+	public Team addUser(int team_id, String user_id) {
 		Team updatedTeam = teamRepository.findById(team_id).get();
 		updatedTeam.setUserId(user_id);
 		teamRepository.save(updatedTeam);

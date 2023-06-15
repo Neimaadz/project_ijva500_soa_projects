@@ -14,5 +14,5 @@ public class TeamCreateRequest {
 	public int teamTypeId;
 	
 	@ElementCollection
-	public List<Integer> usersIds;
+	public List<String> usersIds;
 }

@@ -36,7 +36,7 @@ public class Team {
 	private Project project;
 	
 	@ElementCollection
-	private List<Integer> usersIds;
+	private List<String> usersIds;
 
 	public int getId() {
 		return id;
@@ -62,15 +62,15 @@ public class Team {
 		this.teamTypeId = teamTypeId;
 	}
 
-	public List<Integer> getUsersIds() {
+	public List<String> getUsersIds() {
 		return usersIds;
 	}
 
-	public void setUsersIds(List<Integer> usersIds) {
+	public void setUsersIds(List<String> usersIds) {
 		this.usersIds = usersIds;
 	}
 	
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.usersIds.add(userId);
 	}
 

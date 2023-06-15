@@ -8,5 +8,5 @@ public class RequestJoinTeamCreateRequest{
 	public int teamId;
 
 	@JsonIgnore(value = false)
-	public int userId;
+	public String userId;
 }

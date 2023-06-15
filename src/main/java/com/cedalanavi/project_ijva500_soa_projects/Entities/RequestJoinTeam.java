@@ -20,7 +20,7 @@ public class RequestJoinTeam {
     public int teamId;
 
 	@NonNull
-    public int userId;
+    public String userId;
 	
 	@NonNull
 	private String status;
@@ -41,11 +41,11 @@ public class RequestJoinTeam {
 		this.teamId = teamId;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
