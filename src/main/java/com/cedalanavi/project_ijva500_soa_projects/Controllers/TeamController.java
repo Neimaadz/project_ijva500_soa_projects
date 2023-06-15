@@ -1,5 +1,6 @@
 package com.cedalanavi.project_ijva500_soa_projects.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,14 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamCreateRequest;
-import com.cedalanavi.project_ijva500_soa_projects.Data.TeamGetRequest;
+import com.cedalanavi.project_ijva500_soa_projects.Data.TeamResource;
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Services.TeamService;
+import com.cedalanavi.project_ijva500_soa_projects.Utils.TeamMapper;
 
 @RestController
 @RequestMapping("manage-team")
@@ -27,19 +28,27 @@ public class TeamController {
 	@Autowired
 	private TeamService teamService;
 
-	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
-	}
+	@Autowired
+	TeamMapper teamMapper;
 
-	@GetMapping("")
-	public List<TeamGetRequest> getAll(HttpServletResponse response) {
-		return teamService.getAll();
+	@GetMapping
+	public List<TeamResource> getAll(HttpServletResponse response) {
+		List<Team> teamResults = teamService.getAll();
+		List<TeamResource> teamResources = new ArrayList<TeamResource>();
+		teamResults.forEach(team -> {
+			teamResources.add(teamMapper.toTeamResource(team));
+		});
+		return teamResources;
 	}
 	
 	@GetMapping(path = "{team_id}")
-	public List<Team> getById(@PathVariable Integer team_id, HttpServletResponse response) {
-		return teamService.getAllByProjectId(team_id);
+	public List<TeamResource> getById(@PathVariable Integer team_id, HttpServletResponse response) {
+		List<Team> teamResults = teamService.getAllByProjectId(team_id);
+		List<TeamResource> teamResources = new ArrayList<TeamResource>();
+		teamResults.forEach(team -> {
+			teamResources.add(teamMapper.toTeamResource(team));
+		});
+		return teamResources;
 	}
 
 	@PostMapping(path = "/create")
@@ -53,8 +62,8 @@ public class TeamController {
 	}
 	
 	@PutMapping(path = "{team_id}/users")
-	public Team setUsers(@PathVariable int team_id, @RequestBody TeamUpdateRequest teamUpdateUsersRequest) {
-		return teamService.setUsers(team_id, teamUpdateUsersRequest);
+	public TeamResource setUsers(@PathVariable int team_id, @RequestBody TeamUpdateRequest teamUpdateUsersRequest) {
+		return teamMapper.toTeamResource(teamService.setUsers(team_id, teamUpdateUsersRequest));
 	}
 	 
 	@PutMapping("{team_id}/update")

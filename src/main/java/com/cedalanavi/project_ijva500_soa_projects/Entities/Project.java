@@ -2,6 +2,7 @@ package com.cedalanavi.project_ijva500_soa_projects.Entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,12 +34,12 @@ public class Project {
 	@JsonBackReference
 	private Project parentProject;
 	
-	@OneToMany(mappedBy="project")
+	@OneToMany(mappedBy="project", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ElementCollection
 	@JsonManagedReference
 	private List<Team> teams;
 
-	@OneToMany(mappedBy="parentProject")
+	@OneToMany(mappedBy="parentProject", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ElementCollection
 	@JsonManagedReference
 	private List<Project> projects;

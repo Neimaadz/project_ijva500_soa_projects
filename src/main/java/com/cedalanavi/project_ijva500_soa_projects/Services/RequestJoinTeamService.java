@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cedalanavi.project_ijva500_soa_projects.Data.RequestJoinTeamCreateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.RequestJoinTeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.RequestJoinTeam;
+import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.RequestJoinTeamRepository;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.TeamRepository;
 

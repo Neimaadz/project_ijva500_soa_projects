@@ -1,6 +1,5 @@
 package com.cedalanavi.project_ijva500_soa_projects.Services;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectCreateRequest;
-import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectGetRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Project;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
@@ -17,23 +15,15 @@ import com.cedalanavi.project_ijva500_soa_projects.Repositories.TeamRepository;
 
 @Service
 public class ProjectService {
+	
 	@Autowired
 	private ProjectRepository projectRepository;
+	
 	@Autowired
 	private TeamRepository teamRepository;
 	
-	public Iterable<ProjectGetRequest> getAll() {
-		List<Project> projects = projectRepository.findAll();
-		List<ProjectGetRequest> projectsGetRequest = new ArrayList<>();
-		for (Project project : projects) {
-			ProjectGetRequest projectGetRequest = new ProjectGetRequest();
-			projectGetRequest.setId(project.getId());
-			projectGetRequest.setName(project.getName());
-			projectGetRequest.setProjects(project.getProjects());
-			projectGetRequest.setTeams(project.getTeams());
-			projectsGetRequest.add(projectGetRequest);
-		}
-		return projectsGetRequest;
+	public List<Project> getAll() {
+		return projectRepository.findAll();
 	}
 
 	public Project create(ProjectCreateRequest projectRequest) {

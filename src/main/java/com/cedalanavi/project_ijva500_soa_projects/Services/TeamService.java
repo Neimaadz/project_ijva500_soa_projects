@@ -1,42 +1,35 @@
 package com.cedalanavi.project_ijva500_soa_projects.Services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamCreateRequest;
-import com.cedalanavi.project_ijva500_soa_projects.Data.TeamGetRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
+import com.cedalanavi.project_ijva500_soa_projects.Entities.TeamType;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.ProjectRepository;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.TeamRepository;
-import com.cedalanavi.project_ijva500_soa_projects.Repositories.TypeTeamRepository;
+import com.cedalanavi.project_ijva500_soa_projects.Repositories.TeamTypeRepository;
 
 @Service
 public class TeamService {
+	
 	@Autowired
 	private ProjectRepository projectRepository;
+	
 	@Autowired
 	private TeamRepository teamRepository;
-	@Autowired
-	private TypeTeamRepository typeTeamRepository;
-	@Autowired
-	private TypeTeamService typeTeamService;
 	
-	public List<TeamGetRequest> getAll() {
-		List<Team> teams = teamRepository.findAll();
-		List<TeamGetRequest> teamsGetRequest = new ArrayList<>();
-		for (Team team : teams) {
-			TeamGetRequest teamGetRequest = new TeamGetRequest();
-			teamGetRequest.setId(team.getId());
-			teamGetRequest.setName(team.getName());
-			teamGetRequest.setTypeTeam(typeTeamRepository.findById(team.getTeamTypeId()).get());
-			teamGetRequest.setUsersIds(team.getUsersIds());
-			teamsGetRequest.add(teamGetRequest);
-		}
-		return teamsGetRequest;
+	@Autowired
+	private TeamTypeRepository teamTypeRepository;
+	
+	@Autowired
+	private TeamTypeService typeTeamService;
+	
+	public List<Team> getAll() {
+		return teamRepository.findAll();
 	}
 
 	public Team create(TeamCreateRequest teamRequest){
@@ -44,9 +37,11 @@ public class TeamService {
 		Team team = new Team();
 		if (teamRequest.name == null || teamRequest.name.length() == 0) return null;
 		if (teamRequest.teamTypeId == 0 || !typeTeamService.existsById(teamRequest.teamTypeId))	return null;
+		TeamType teamType = teamTypeRepository.findById(teamRequest.teamTypeId).get();
+		
 		team.setName(teamRequest.name);
-		team.setTeamTypeId(teamRequest.teamTypeId);
 		team.setUsersIds(teamRequest.usersIds);
+		team.setTeamType(teamType);
 		return teamRepository.save(team);
 	}
 
@@ -69,10 +64,12 @@ public class TeamService {
 	}
 
 	public Team update(int team_id, TeamUpdateRequest teamUpdateRequest) {
+		TeamType teamType = teamTypeRepository.findById(teamUpdateRequest.teamTypeId).get();
+		
 		Team updatedTeam = new Team();
 		updatedTeam.setId(teamUpdateRequest.id);
 		updatedTeam.setName(teamUpdateRequest.name);
-		updatedTeam.setTeamTypeId(teamUpdateRequest.teamTypeId);
+		updatedTeam.setTeamType(teamType);
 		updatedTeam.setUsersIds(teamUpdateRequest.usersIds);
 		try {			
 			updatedTeam.setProject(projectRepository.findById(teamUpdateRequest.projectId).get());

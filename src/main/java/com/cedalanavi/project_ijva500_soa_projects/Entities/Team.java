@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import org.springframework.lang.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "team")
@@ -26,8 +27,11 @@ public class Team {
 	@NonNull
 	private String name;
 
-	@NonNull
-	private int teamTypeId;
+    @NonNull
+    @ManyToOne
+    @JoinColumn(name = "idTeamType")
+    @JsonManagedReference
+	private TeamType teamType;
 	
 	@ManyToOne
 	@JoinColumn(name="idProject")
@@ -54,12 +58,12 @@ public class Team {
 		this.name = name;
 	}
 
-	public int getTeamTypeId() {
-		return teamTypeId;
+	public TeamType getTeamType() {
+		return teamType;
 	}
 
-	public void setTeamTypeId(int teamTypeId) {
-		this.teamTypeId = teamTypeId;
+	public void setTeamType(TeamType teamType) {
+		this.teamType = teamType;
 	}
 
 	public List<String> getUsersIds() {
