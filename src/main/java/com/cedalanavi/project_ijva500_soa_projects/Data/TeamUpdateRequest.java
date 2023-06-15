@@ -24,6 +24,6 @@ public class TeamUpdateRequest {
 	
 	@JsonIgnore(value = false)
 	@ElementCollection
-	public List<Integer> usersIds;
+	public List<String> usersIds;
 
 }
