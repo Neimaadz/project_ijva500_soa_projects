@@ -9,11 +9,15 @@ import com.cedalanavi.project_ijva500_soa_projects.Data.RequestJoinTeamCreateReq
 import com.cedalanavi.project_ijva500_soa_projects.Data.RequestJoinTeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.RequestJoinTeam;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.RequestJoinTeamRepository;
+import com.cedalanavi.project_ijva500_soa_projects.Repositories.TeamRepository;
 
 @Service
 public class RequestJoinTeamService {
 	@Autowired
 	private RequestJoinTeamRepository requestJoinTeamRepository;
+
+	@Autowired
+	private TeamRepository teamRepository;
 	
 	public List<RequestJoinTeam> getAll() {
 		return requestJoinTeamRepository.findAll();
@@ -33,6 +37,8 @@ public class RequestJoinTeamService {
 
 		if (requestJoinTeamUpdateRequest.status.equals("accepted"))  {
 			requestJoinTeam.setStatus("accepted");
+			Team team = teamRepository.findById(requestJoinTeam.getTeamId()).get();
+			team.setUserId(requestJoinTeam.getUserId());
 			return requestJoinTeamRepository.save(requestJoinTeam);
 		}
 		else if (requestJoinTeamUpdateRequest.status.equals("rejected")) {

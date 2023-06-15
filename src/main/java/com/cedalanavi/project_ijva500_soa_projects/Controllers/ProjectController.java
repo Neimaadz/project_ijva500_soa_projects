@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectCreateRequest;
+import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectGetRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.ProjectUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Project;
 import com.cedalanavi.project_ijva500_soa_projects.Services.ProjectService;
@@ -25,7 +26,7 @@ public class ProjectController {
 	private ProjectService projectService;
 
 	@GetMapping("")
-	public Iterable<Project> getAll() {
+	public Iterable<ProjectGetRequest> getAll() {
 		return projectService.getAll();
 	}
 

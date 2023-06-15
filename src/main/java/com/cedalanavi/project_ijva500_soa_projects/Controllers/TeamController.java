@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamCreateRequest;
+import com.cedalanavi.project_ijva500_soa_projects.Data.TeamGetRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Services.TeamService;
@@ -32,7 +33,7 @@ public class TeamController {
 	}
 
 	@GetMapping("")
-	public List<Team> getAll(HttpServletResponse response) {
+	public List<TeamGetRequest> getAll(HttpServletResponse response) {
 		return teamService.getAll();
 	}
 	

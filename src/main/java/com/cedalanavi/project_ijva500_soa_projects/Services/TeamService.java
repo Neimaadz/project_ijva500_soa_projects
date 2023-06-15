@@ -1,15 +1,18 @@
 package com.cedalanavi.project_ijva500_soa_projects.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamCreateRequest;
+import com.cedalanavi.project_ijva500_soa_projects.Data.TeamGetRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Data.TeamUpdateRequest;
 import com.cedalanavi.project_ijva500_soa_projects.Entities.Team;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.ProjectRepository;
 import com.cedalanavi.project_ijva500_soa_projects.Repositories.TeamRepository;
+import com.cedalanavi.project_ijva500_soa_projects.Repositories.TypeTeamRepository;
 
 @Service
 public class TeamService {
@@ -18,10 +21,22 @@ public class TeamService {
 	@Autowired
 	private TeamRepository teamRepository;
 	@Autowired
+	private TypeTeamRepository typeTeamRepository;
+	@Autowired
 	private TypeTeamService typeTeamService;
 	
-	public List<Team> getAll() {
-		return teamRepository.findAll();
+	public List<TeamGetRequest> getAll() {
+		List<Team> teams = teamRepository.findAll();
+		List<TeamGetRequest> teamsGetRequest = new ArrayList<>();
+		for (Team team : teams) {
+			TeamGetRequest teamGetRequest = new TeamGetRequest();
+			teamGetRequest.setId(team.getId());
+			teamGetRequest.setName(team.getName());
+			teamGetRequest.setTypeTeam(typeTeamRepository.findById(team.getTeamTypeId()).get());
+			teamGetRequest.setUsersIds(team.getUsersIds());
+			teamsGetRequest.add(teamGetRequest);
+		}
+		return teamsGetRequest;
 	}
 
 	public Team create(TeamCreateRequest teamRequest){
