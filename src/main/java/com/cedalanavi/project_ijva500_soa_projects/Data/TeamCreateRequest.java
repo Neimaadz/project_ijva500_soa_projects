@@ -11,7 +11,7 @@ public class TeamCreateRequest {
 	public String name;
 
 	@JsonIgnore(value = false)
-	public int teamTypeId;
+	public int typeTeamId;
 	
 	@ElementCollection
 	public List<String> usersIds;

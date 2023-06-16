@@ -36,8 +36,8 @@ public class TeamService {
 		// Création et enregistrement de l'équipe
 		Team team = new Team();
 		if (teamRequest.name == null || teamRequest.name.length() == 0) return null;
-		if (teamRequest.teamTypeId == 0 || !typeTeamService.existsById(teamRequest.teamTypeId))	return null;
-		TeamType teamType = teamTypeRepository.findById(teamRequest.teamTypeId).get();
+		if (teamRequest.typeTeamId == 0 || !typeTeamService.existsById(teamRequest.typeTeamId))	return null;
+		TeamType teamType = teamTypeRepository.findById(teamRequest.typeTeamId).get();
 		
 		team.setName(teamRequest.name);
 		team.setUsersIds(teamRequest.usersIds);
